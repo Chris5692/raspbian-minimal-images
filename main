@@ -1,0 +1,29 @@
+#!bin/bash
+
+package = 'gcc avahi-daemon rsync x11 xorg midori lxde python3 python2 alsa bluez vim sound'
+
+# Updating the repository
+sudo apt-get update ; sudo apt full-upgrade ; 
+
+# Removing unncessary packages 
+for packages in package
+do
+	sudo apt remove --purge $(sudo apt search $packages | grep installed | awk '{print $1}'| sed 's@/[^ ]*@@g') ; sudo apt autoremove -y ; 
+	sudo apt remove --purge $(sudo dpkg --get-selections | grep -v "deinstall" | grep $packages | sed s/install//) ; sudo apt autoremove -y ;
+done
+
+
+# Removing devlopment packages
+sudo apt remove --purge $(sudo dpkg --get-selections | grep "\-dev" | sed s/install//) ; 
+
+# Removing the test code
+sudo rm -rf /opt ; 
+
+# Cleaning apt cache
+sudo apt-get clean ; sudo apt clean ; 
+
+# Removing apt cache
+sudo rm -rf /var/lib/apt/lists/* ; sudo rm -rf /var/cache/apt/* ;
+
+# Delete the vlogs 
+cd /var/log/ ; sudo rm 'find . -type f'
