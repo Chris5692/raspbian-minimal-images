@@ -2,6 +2,9 @@
 
 packages='gcc avahi-daemon rsync x11 xorg midori lxde python3 python2 alsa bluez vim sound calender omxplayer c++ hostnamectl lua man perl sensible-editor sensible-browser sensible-pager elect-editor unicode-start unicode-stop'
 
+# Disabling swap
+sudo swapoff -a ; cd /var ; sudo dd if=/dev/zero of=/swap bs=1M count=100 ; rm swap ; cd
+
 # Updating the repository
 sudo apt-get update ; sudo apt autoremove -y; 
 
@@ -30,4 +33,7 @@ sudo rm -rf /var/lib/apt/lists/* ; sudo rm -rf /var/cache/apt/* ;
 
 
 # Delete the vlogs 
-sudo rm -rf /var/log/*
+sudo rm -rf /var/log/* ;
+
+# Final image size
+df -h
