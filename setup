@@ -1,0 +1,19 @@
+king the folder for the image 
+mkdir rpi ; 
+
+## Mounting the image to the folder
+sudo mount -o loop,offset=$(($(fdisk -l $(pwd)/*armhf-lite.img | grep Linux | awk '{printf $2}')*$(fdisk -l $(pwd)/*armhf-lite.img | grep Units | awk '{printf $8}'))) $(pwd)/*armhf-lite.img rpi ; 
+
+## Mounting the bind
+sudo mount --bind /proc rpi/proc ; sudo mount --bind /sys rpi/sys ; sudo mount --bind /dev rpi/dev ; 
+
+
+## Chrooting into the enviroment
+sudo chroot rpi ; 
+
+## Unmounting the binds
+sudo umount rpi/sys ; sudo umount rpi/dev ; sudo umount rpi/proc ; 
+
+# Exiting
+echo "Exiting"
+
