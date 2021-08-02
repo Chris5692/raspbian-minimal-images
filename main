@@ -1,6 +1,6 @@
 #!/bin/bash
 
-packages='avahi-daemon rsync x11 xorg midori lxde python3 python2 alsa bluez vim sound'
+packages='gcc avahi-daemon rsync x11 xorg midori lxde python3 python2 alsa bluez vim sound calender omxplayer c++ hostnamectl lua man perl sensible-editor sensible-browser sensible-pager elect-editor unicode-start unicode-stop'
 
 # Updating the repository
 sudo apt-get update ; sudo apt autoremove -y; 
@@ -14,7 +14,7 @@ done
 
 
 # Removing devlopment packages
-sudo apt remove --purge $(sudo dpkg --get-selections | grep "\-dev" | sed s/install//) ; 
+sudo apt remove --purge $(sudo dpkg --get-selections | grep "\-dev" | sed s/install//) -y ; 
 
 
 # Removing the test code
