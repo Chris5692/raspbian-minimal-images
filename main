@@ -1,6 +1,6 @@
 #!/bin/bash
 
-packages='gcc avahi-daemon rsync x11 xorg midori lxde python3 python2 alsa bluez vim sound calender omxplayer c++ hostnamectl lua man perl sensible-editor sensible-browser sensible-pager elect-editor unicode-start unicode-stop'
+packages='gcc avahi-daemon rsync x11 xorg midori lxde python3 python2 alsa bluez vim sound omxplayer cpp c++ lua man perl sensible-utils unicode'
 
 # Disabling swap
 sudo swapoff -a ; cd /var ; sudo dd if=/dev/zero of=/swap bs=1M count=100 ; rm swap ; cd
@@ -19,21 +19,30 @@ done
 # Removing devlopment packages
 sudo apt remove --purge $(sudo dpkg --get-selections | grep "\-dev" | sed s/install//) -y ; 
 
-
 # Removing the test code
 sudo rm -rf /opt ; 
-
 
 # Cleaning apt cache
 sudo apt-get clean ; sudo apt clean ; 
 
+# Delete the vlogs 
+sudo rm -rf /var/log/* ;
+
+# Server setup
+sudo apt install --no-install-recommends neovim git wget curl dropbear-bin zram-tools -y ;
+
+# zram setup
+echo 'PERCENTAGE=50' >> 		/etc/default/zramswap ;
+echo 'ALLOCATION=256' >> 		/etc/default/zramswap ;
+echo 'PRIORITY=32767' >> 		/etc/default/zramswap ; 
+echo 'zstd' >> 				/sys/block/zram0/comp_algorithm ; 
+echo 'vm.vfs_cache_pressure=500' >> 	/etc/sysctl.conf
+echo 'vm.swappiness=100' >> 		/etc/sysctl.conf
+echo 'vm.dirty_background_ratio=1' >> 	/etc/sysctl.conf
+echo 'vm.dirty_ratio=50' >> 		/etc/sysctl.conf
 
 # Removing apt cache
 sudo rm -rf /var/lib/apt/lists/* ; sudo rm -rf /var/cache/apt/* ;
-
-
-# Delete the vlogs 
-sudo rm -rf /var/log/* ;
 
 # Final image size
 df -h
