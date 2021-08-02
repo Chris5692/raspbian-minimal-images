@@ -1,15 +1,15 @@
 #!/bin/bash
 
-package='avahi-daemon rsync x11 xorg midori lxde python3 python2 alsa bluez vim sound'
+packages='avahi-daemon rsync x11 xorg midori lxde python3 python2 alsa bluez vim sound'
 
 # Updating the repository
 sudo apt-get update ; sudo apt autoremove -y; 
 
 # Removing unncessary packages 
-for packages in package
+for package in $packages
 do
-	sudo apt remove --purge $(sudo apt search $packages | grep installed | awk '{print $1}'| sed 's@/[^ ]*@@g') -y ; sudo apt autoremove -y ; 
-	sudo apt remove --purge $(sudo dpkg --get-selections | grep -v "deinstall" | grep $packages | sed 's/install//') -y ; sudo apt autoremove -y ;
+	sudo apt remove --purge $(sudo apt search $package | grep installed | awk '{print $1}'| sed 's@/[^ ]*@@g') -y ; sudo apt autoremove -y ; 
+	sudo apt remove --purge $(sudo dpkg --get-selections | grep -v "deinstall" | grep $package | sed 's/install//') -y ; sudo apt autoremove -y ;
 done
 
 
@@ -30,4 +30,4 @@ sudo rm -rf /var/lib/apt/lists/* ; sudo rm -rf /var/cache/apt/* ;
 
 
 # Delete the vlogs 
-# cd /var/log/ ; sudo rm 'find . -type f' ; sudo rm -rf /var/log/*
+sudo rm -rf /var/log/*
